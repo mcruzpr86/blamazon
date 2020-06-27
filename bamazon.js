@@ -4,22 +4,30 @@ const inquirer = require('inquirer');
 
 const connection = mysql.createConnection({
     host: 'localhost',
-    port:
-        user     : '"root""',
+    port: 3306,
+    user: 'root',
     password: 'ImDTFHowBoutYou123321',
     database: 'bamazon_db'
 });
 
-connection.connect();
-
-connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
-    if (error) throw error;
-    console.log('The solution is: ', results[0].solution);
+connection.connect(function (err) {
+    if (err) throw err;
+    console.log('Your connected as ID:' + connection.threadID);
+    displayProducts();
 });
+
+let displayProducts = function () {
+    let query = "select * FROM products";
+    connection.query(query, function (error, results, fields) {
+        if (error) throw error;
+        console.log('The solution is: ', results[0].solution);
+    });
+
+}
 
 connection.end();
 
-const inquirer = require('inquirer');
+
 
 inquirer
     .prompt([
